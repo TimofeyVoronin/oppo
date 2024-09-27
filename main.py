@@ -5,7 +5,7 @@
 их обработки и сохранения в текстовый файл.
 """
 
-import sys
+import sys  # Импортируем модуль sys для доступа к системным функциям и параметрам
 
 
 class Sea:
@@ -19,12 +19,13 @@ class Sea:
             depth: Число с плавающей точкой, представляющее глубину.
             salinity: Число с плавающей точкой, представляющее соленость.
         """
-        self.name = name
-        self.depth = depth
-        self.salinity = salinity
+        self.name = name         # Присваиваем свойству name значение параметра name
+        self.depth = depth       # Присваиваем свойству depth значение параметра depth
+        self.salinity = salinity # Присваиваем свойству salinity значение параметра salinity
 
     def __str__(self):
         """Возвращает строковое представление объекта Sea."""
+        # Форматируем строку для вывода: "Название" Глубина Соленость
         return f'"{self.name}" {self.depth} {self.salinity}'
 
 
@@ -34,19 +35,20 @@ def read_sea_data():
     Returns:
         Экземпляр класса Sea с данными, введенными пользователем.
     """
-    user_input = input()
-    tokens = user_input.strip().split()
+    user_input = input()              # Читаем строку ввода от пользователя
+    tokens = user_input.strip().split()  # Разбиваем строку на список токенов по пробелам
 
     try:
-        salinity = float(tokens[-1])
-        depth = float(tokens[-2])
-        name_tokens = tokens[:-2]
-        name = ' '.join(name_tokens)
+        salinity = float(tokens[-1])    # Преобразуем последний токен в float (соленость)
+        depth = float(tokens[-2])       # Преобразуем предпоследний токен в float (глубина)
+        name_tokens = tokens[:-2]       # Получаем все токены, кроме последних двух (название)
+        name = ' '.join(name_tokens)    # Объединяем токены названия обратно в строку
     except (ValueError, IndexError):
-        print("Некорректный формат ввода.", file=sys.stderr)
-        sys.exit(1)
+        # Если возникает ошибка преобразования или недостаточно токенов
+        print("Некорректный формат ввода.", file=sys.stderr)  # Выводим сообщение об ошибке в стандартный поток ошибок
+        sys.exit(1)  # Завершаем программу с кодом ошибки 1
 
-    return Sea(name, depth, salinity)
+    return Sea(name, depth, salinity)  # Возвращаем созданный объект Sea
 
 
 def save_sea_data(sea, filename):
@@ -56,16 +58,17 @@ def save_sea_data(sea, filename):
         sea: Экземпляр класса Sea для сохранения.
         filename: Строка с именем файла для сохранения данных.
     """
+    # Открываем файл для добавления данных с указанием кодировки UTF-8
     with open(filename, 'a', encoding='utf-8') as file:
-        file.write(f'{sea}\n')
+        file.write(f'{sea}\n')  # Записываем строковое представление объекта Sea и добавляем перевод строки
 
 
 def main():
     """Основная функция для обработки данных о море."""
-    sea = read_sea_data()
-    print(sea)
-    save_sea_data(sea, 'моря.txt')
+    sea = read_sea_data()          # Читаем данные от пользователя и создаем объект Sea
+    print(sea)                     # Выводим данные о море на экран
+    save_sea_data(sea, 'моря.txt') # Сохраняем данные о море в файл "моря.txt"
 
 
 if __name__ == '__main__':
-    main()
+    main()  # Если скрипт запущен напрямую, вызываем функцию main()
